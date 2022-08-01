@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.michaelbruno.tech.nectar.R
 
 @Composable
-fun AppLogo(baseColor: Color? = null) {
+fun AppLogo(baseColor: Color? = null,leavesColor: Color? = null) {
     Box(
         modifier = Modifier
             .width(55.dp)
@@ -27,7 +27,10 @@ fun AppLogo(baseColor: Color? = null) {
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .height(24.dp)
-                .offset(y = 8.dp, x = -(7).dp)
+                .offset(y = 8.dp, x = -(7).dp),
+            colorFilter = if (leavesColor != null) ColorFilter.tint(leavesColor) else ColorFilter.tint(
+                Color.White
+            )
         )
         Image(
             painter = painterResource(id = R.drawable.ic_carrot_fruit), contentDescription = "",

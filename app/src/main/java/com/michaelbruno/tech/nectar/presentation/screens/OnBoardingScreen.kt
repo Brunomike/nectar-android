@@ -1,36 +1,53 @@
-package com.michaelbruno.tech.nectar.presentation
+package com.michaelbruno.tech.nectar.presentation.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.michaelbruno.tech.nectar.Screen
 import com.michaelbruno.tech.nectar.presentation.composables.AppLogo
+import com.michaelbruno.tech.nectar.R
 
 
 @Composable
-fun OnBoardingScreen() {
+fun OnBoardingScreen(navController: NavController) {
     Box(
         contentAlignment = Alignment.BottomCenter,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
-            .padding(bottom = 64.dp)
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Image(
+            painter=painterResource(id = R.drawable.onboarding),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .scale( 1.2f)
+        )
+
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier=Modifier
+                .padding(bottom = 64.dp)
+        ) {
             AppLogo()
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -60,7 +77,9 @@ fun OnBoardingScreen() {
                 modifier = Modifier
                     .fillMaxWidth(.8f)
                     .clip(RoundedCornerShape(16.dp)),
-                onClick = { /*TODO*/ }
+                onClick = {
+                    navController.navigate(Screen.SignInWithEmailAndPasswordScreen.route)
+                }
             ) {
                 Text(
                     text = "Get Started",
@@ -72,11 +91,4 @@ fun OnBoardingScreen() {
             }
         }
     }
-}
-
-
-@Preview
-@Composable
-fun BoardPreview() {
-    OnBoardingScreen()
 }

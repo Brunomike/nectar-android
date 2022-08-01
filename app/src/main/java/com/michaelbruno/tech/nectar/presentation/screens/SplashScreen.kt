@@ -1,11 +1,9 @@
-package com.michaelbruno.tech.nectar.presentation
+package com.michaelbruno.tech.nectar.presentation.screens
 
 import android.view.animation.OvershootInterpolator
-import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,7 +28,7 @@ fun SplashScreen(navController: NavController) {
     }
     LaunchedEffect(key1 = true) {
         scale.animateTo(
-            targetValue = 0f,
+            targetValue = 0.7f,
             animationSpec = tween(
                 durationMillis = 200,
                 easing = {
@@ -38,7 +36,7 @@ fun SplashScreen(navController: NavController) {
                 }
             )
         )
-        delay(1000L)
+        //delay(1000L)
         navController.navigate(Screen.OnBoardingScreen.route)
     }
     Box(
