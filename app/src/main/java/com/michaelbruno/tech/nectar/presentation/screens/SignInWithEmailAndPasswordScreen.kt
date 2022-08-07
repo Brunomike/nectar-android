@@ -31,13 +31,17 @@ fun SignInWithEmailAndPasswordScreen(navController: NavController) {
     val password = remember { mutableStateOf("") }
     val passwordVisibility = remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(top = 32.dp)
         ) {
-            AppLogo(Color.Red, Color.Green)
+            AppLogo(Color(0xFFF3603F), Color(0xFF53B175))
             Spacer(modifier = Modifier.height(16.dp))
         }
         Column(modifier = Modifier.align(Alignment.Center)) {
@@ -117,7 +121,7 @@ fun SignInWithEmailAndPasswordScreen(navController: NavController) {
                     .fillMaxWidth(.8f)
                     .clip(RoundedCornerShape(16.dp)),
                 onClick = {
-
+                    navController.navigate(Screen.HomeScreen.route)
                 }
             ) {
                 Text(
@@ -134,7 +138,14 @@ fun SignInWithEmailAndPasswordScreen(navController: NavController) {
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 Text(text = "Don't have an account?", fontSize = 14.sp, color = Color.Black)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "Signup", fontSize = 14.sp, color = Color(0xFF53B175))
+                Text(
+                    text = "Signup",
+                    fontSize = 14.sp, color = Color(0xFF53B175),
+                    modifier = Modifier
+                        .clickable(enabled = true) {
+                            navController.navigate(Screen.SignUpWithEmailAndPasswordScreen.route)
+                        }
+                )
             }
         }
 

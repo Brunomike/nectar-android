@@ -17,9 +17,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.michaelbruno.tech.nectar.Screen
 import com.michaelbruno.tech.nectar.presentation.composables.AppLogo
 import com.michaelbruno.tech.nectar.R
@@ -39,7 +41,7 @@ fun OnBoardingScreen(navController: NavController) {
                 .fillMaxSize()
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .scale( 1.2f)
+                .scale(1.2f)
         )
 
 
@@ -91,4 +93,11 @@ fun OnBoardingScreen(navController: NavController) {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun OnBoardingPreview() {
+    val navController= rememberNavController()
+    OnBoardingScreen(navController = navController)
 }

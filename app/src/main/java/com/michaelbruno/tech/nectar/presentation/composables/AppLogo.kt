@@ -11,15 +11,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.michaelbruno.tech.nectar.R
 
 @Composable
-fun AppLogo(baseColor: Color? = null,leavesColor: Color? = null) {
+fun AppLogo(baseColor: Color? = null, leavesColor: Color? = null, scaleTo: Float = 1f) {
     Box(
         modifier = Modifier
             .width(55.dp)
             .height(64.dp)
+            .scale(scaleTo)
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_carrot_leaves),
