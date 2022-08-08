@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -38,13 +39,13 @@ fun BottomNavigation(navController: NavController) {
         BottomNavigationItem(
             icon = R.drawable.ic_cart,
             title = "Cart",
-            route = Screen.SplashScreen.route,
+            route = Screen.CartScreen.route,
             navController = navController
         ),
         BottomNavigationItem(
             icon = R.drawable.ic_favourite,
             title = "Favourite",
-            route = Screen.SplashScreen.route,
+            route = Screen.FavouritesScreen.route,
             navController = navController
         ),
         BottomNavigationItem(
@@ -59,7 +60,8 @@ fun BottomNavigation(navController: NavController) {
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White)
-            .shadow(2.dp, RoundedCornerShape(8.dp),false)
+            .shadow(elevation=4.dp,shape= RoundedCornerShape(8.dp), clip = false)
+            .height(60.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -93,10 +95,10 @@ fun NavigationItem(
     navController: NavController,
 ) {
     Column(
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .height(40.dp)
+            .height(42.dp)
             .clickable {
                 navController.navigate(route)
             }
@@ -108,11 +110,11 @@ fun NavigationItem(
             modifier = Modifier
                 .size(25.dp)
         )
-        Spacer(modifier = Modifier.height(2.dp))
         Text(
             text = title,
             color = if (active) Color.Green else Color.Black,
-            fontSize = 12.sp
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Thin
         )
     }
 }

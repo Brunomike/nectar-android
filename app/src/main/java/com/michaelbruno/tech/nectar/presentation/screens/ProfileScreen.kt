@@ -180,6 +180,7 @@ fun ProfileItem(
                     tint = Color.Black,
                     modifier = Modifier
                         .size(20.dp)
+
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(

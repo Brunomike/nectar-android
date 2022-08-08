@@ -1,6 +1,7 @@
 package com.michaelbruno.tech.nectar.presentation.screens
 
 import android.widget.GridView
+import android.widget.Space
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
@@ -11,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -22,15 +24,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.michaelbruno.tech.nectar.R
 import com.michaelbruno.tech.nectar.presentation.composables.AppLogo
+import com.michaelbruno.tech.nectar.presentation.composables.ErrorDialog
 import com.michaelbruno.tech.nectar.presentation.composables.Search
+import com.michaelbruno.tech.nectar.ui.theme.fonts
 import kotlin.math.min
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(navController: NavController) {
     val searchTerm = remember { mutableStateOf("") }
+    val openDialog = remember { mutableStateOf(false) }
     val productList: List<ProductKt> = listOf(
         ProductKt(
             imageUrl = R.drawable.banana,
@@ -74,101 +80,72 @@ fun HomeScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(horizontal = 16.dp)
-            .verticalScroll(
-                state = rememberScrollState(),
-                enabled = true
-            )
+            .padding(horizontal = 8.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-
+                .padding(top = 8.dp,bottom = 70.dp)
         ) {
-            AppLogo(Color(0xFFF3603F), Color(0xFF53B175), .5f)
+            //AppLogo(Color(0xFFF3603F), Color(0xFF53B175), .5f)
+            Image(
+                painter = painterResource(id = R.drawable.colored_logo),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(25.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
             Spacer(modifier = Modifier.height(4.dp))
             Row(modifier = Modifier) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_location),
+                    painter = painterResource(id = R.drawable.ic_location_dark),
                     contentDescription = null,
                     tint = Color.DarkGray
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "Nairobi, Kenya", color = Color.Black)
+                Text(
+                    text = "Nairobi, Kenya",
+                    color = Color.Black,
+                    style = MaterialTheme.typography.body2,
+                    fontSize = 12.sp
+                )
             }
 
             Search(searchTerm)
 
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                //contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-            ) {
-                items(productList.size) { index ->
-                    Product(
-                        imageUrl = productList[index].imageUrl,
-                        title = productList[index].title,
-                        price = productList[index].price,
-                        quantity = productList[index].quantity
-                    )
-                }
-            }
-
             Spacer(modifier = Modifier.width(8.dp))
-            val list = (1..10).map { it.toString() }
 
             LazyVerticalGrid(
-                cells = GridCells.Adaptive(128.dp),
-                contentPadding = PaddingValues(
-                    start = 12.dp,
-                    top = 16.dp,
-                    end = 12.dp,
-                    bottom = 16.dp
-                ),
+                cells = GridCells.Fixed(2),
+//                contentPadding = PaddingValues(
+//                    start = 12.dp,
+//                    top = 16.dp,
+//                    end = 12.dp,
+//                    bottom = 16.dp
+//                ),
                 content = {
-                    items(list.size) { index ->
-                        Card(
-                            backgroundColor = Color.Red,
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .fillMaxWidth(),
-                            elevation = 8.dp
-                        ) {
-                            Text(
-                                text = list[index],
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 30.sp,
-                                color = Color(0xFFFFFFFF),
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.padding(16.dp)
-                            )
-                        }
+                    items(productList.size) { index ->
+                        Product(
+                            imageUrl = productList[index].imageUrl,
+                            title = productList[index].title,
+                            price = productList[index].price,
+                            quantity = productList[index].quantity
+                        )
                     }
                 }
             )
 
 
-
-
             Spacer(modifier = Modifier.width(8.dp))
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
 
-                modifier = Modifier.fillMaxWidth()
+            Button(
+                onClick = { openDialog.value = !openDialog.value }
             ) {
-                Product(
-                    imageUrl = productList[0].imageUrl,
-                    title = productList[0].title,
-                    price = productList[0].price,
-                    quantity = productList[0].quantity
-                )
-                Product(
-                    imageUrl = productList[0].imageUrl,
-                    title = productList[0].title,
-                    price = productList[0].price,
-                    quantity = productList[0].quantity
-                )
+                Text(text = "Show Dialog", color = Color.White)
             }
+            ErrorDialog(navController, openDialog)
+
         }
 
 
@@ -177,14 +154,20 @@ fun HomeScreen(navController: NavController) {
 
 @Composable
 fun Product(imageUrl: Int, title: String, price: Float, quantity: String) {
-    Box() {
+    Card(
+        backgroundColor = Color.White,
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier
+            .padding(4.dp)
+            .fillMaxWidth()
+            .border(width = 1.dp, shape = RoundedCornerShape(8.dp), color = Color.LightGray)
+            .defaultMinSize(minHeight = 150.dp),
+        //elevation = 8.dp
+    ) {
         Column(
             modifier = Modifier
-                .background(Color.White)
-                .clip(RoundedCornerShape(8.dp))
-                .border(width = 1.dp, shape = RoundedCornerShape(8.dp), color = Color.LightGray)
                 .padding(8.dp)
-                .fillMaxSize()
+                .fillMaxWidth()
         ) {
             Image(
                 painter = painterResource(id = R.drawable.banana),
@@ -214,7 +197,9 @@ fun Product(imageUrl: Int, title: String, price: Float, quantity: String) {
                         .clip(RoundedCornerShape(8.dp))
                         .size(20.dp)
                         .background(Color(0xFF53B175)),
-                    onClick = { /*TODO*/ }
+                    onClick = {
+                        /*TODO*/
+                    }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_add_24),
@@ -292,33 +277,7 @@ fun ProductPreview() {
             quantity = "1kg"
         ),
     )
-
-
-    Product(
-        imageUrl = productList[0].imageUrl,
-        title = productList[0].title,
-        price = productList[0].price,
-        quantity = productList[0].quantity
-    )
-
-//    Box(modifier = Modifier.fillMaxSize()) {
-//        LazyVerticalGrid(
-//            cells = GridCells.Fixed(2),
-//            contentPadding = PaddingValues(16.dp),
-//            content = {
-//                items(productList.size) { index ->
-//                    Product(
-//                        imageUrl = productList[index].imageUrl,
-//                        title = productList[index].title,
-//                        price = productList[index].price,
-//                        quantity = productList[index].quantity
-//                    )
-//                }
-//            }
-//        )
-//    }
-
-
+    HomeScreen(navController = rememberNavController())
 }
 
 //@Preview

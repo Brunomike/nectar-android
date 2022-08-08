@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,7 +36,7 @@ fun OnBoardingScreen(navController: NavController) {
             .fillMaxSize()
     ) {
         Image(
-            painter=painterResource(id = R.drawable.onboarding),
+            painter = painterResource(id = R.drawable.onboarding),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()
@@ -47,7 +48,7 @@ fun OnBoardingScreen(navController: NavController) {
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier=Modifier
+            modifier = Modifier
                 .padding(bottom = 64.dp)
         ) {
             AppLogo()
@@ -88,7 +89,8 @@ fun OnBoardingScreen(navController: NavController) {
                     modifier = Modifier
                         .align(CenterVertically)
                         .padding(vertical = 8.dp),
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    style = MaterialTheme.typography.body1
                 )
             }
         }
@@ -98,6 +100,6 @@ fun OnBoardingScreen(navController: NavController) {
 @Preview
 @Composable
 fun OnBoardingPreview() {
-    val navController= rememberNavController()
+    val navController = rememberNavController()
     OnBoardingScreen(navController = navController)
 }

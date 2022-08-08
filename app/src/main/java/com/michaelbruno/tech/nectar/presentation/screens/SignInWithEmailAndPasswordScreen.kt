@@ -129,7 +129,8 @@ fun SignInWithEmailAndPasswordScreen(navController: NavController) {
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .padding(vertical = 8.dp),
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    style = MaterialTheme.typography.body1
                 )
             }
 
