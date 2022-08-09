@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.michaelbruno.tech.nectar.Constants
 import com.michaelbruno.tech.nectar.R
 import com.michaelbruno.tech.nectar.presentation.composables.Search
 
@@ -30,21 +32,12 @@ import com.michaelbruno.tech.nectar.presentation.composables.Search
 @Composable
 fun ExploreScreen(navController: NavController) {
     val searchTerm = remember { mutableStateOf("") }
-    val categoryList = listOf(
-        CategoryKt(title = "Fresh Fruits & Vegetables", imageUrl = R.drawable.banana),
-        CategoryKt(title = "Cooking Oil & Ghee", imageUrl = R.drawable.banana),
-        CategoryKt(title = "Meat & Fish", imageUrl = R.drawable.banana),
-        CategoryKt(title = "Bakery & Snacks", imageUrl = R.drawable.banana),
-        CategoryKt(title = "Dairy & Eggs", imageUrl = R.drawable.banana),
-        CategoryKt(title = "Beverages", imageUrl = R.drawable.banana),
-    )
-
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 8.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -60,17 +53,40 @@ fun ExploreScreen(navController: NavController) {
             Search(searchTerm)
             Spacer(modifier = Modifier.height(8.dp))
 
-            LazyVerticalGrid(
-                cells = GridCells.Fixed(2),
-                content = {
-                    items(categoryList.size) { index ->
-                        Category(
-                            title = categoryList[index].title,
-                            imageUrl = categoryList[index].imageUrl
-                        )
+            if (searchTerm.value == "") {
+                LazyVerticalGrid(
+                    cells = GridCells.Fixed(2),
+                    content = {
+                        items(Constants.categoryList.size) { index ->
+                            Category(
+                                title = Constants.categoryList[index].title,
+                                imageUrl = Constants.categoryList[index].imageUrl,
+                                color = Constants.categoryList[index].color,
+                                onClick = {
+
+                                }
+                            )
+                        }
                     }
-                }
-            )
+                )
+            } else {
+                LazyVerticalGrid(
+                    cells = GridCells.Fixed(2),
+                    content = {
+                        items(Constants.productList.size) { index ->
+                            Product(
+                                imageUrl = Constants.productList[index].imageUrl,
+                                title = Constants.productList[index].title,
+                                price = Constants.productList[index].price,
+                                quantity = Constants.productList[index].quantity
+                            )
+                        }
+                    }
+                )
+
+                //TODO :Fetch appropriate products of searched value or category
+            }
+
         }
 
     }
@@ -78,28 +94,30 @@ fun ExploreScreen(navController: NavController) {
 
 data class CategoryKt(
     val title: String,
-    val imageUrl: Int
+    val imageUrl: Int,
+    val color: Color
 )
 
 @Composable
-fun Category(title: String, imageUrl: Int) {
+fun Category(title: String, imageUrl: Int, color: Color, onClick: () -> Unit) {
     Card(
-        backgroundColor = Color.White,
+        backgroundColor = color.copy(alpha = 0.25f),
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .border(width = 1.dp, shape = RoundedCornerShape(8.dp), color = Color.LightGray)
+            .border(width = 1.dp, shape = RoundedCornerShape(8.dp), color = color)
             .defaultMinSize(minHeight = 150.dp)
-        ,
-
+            .clickable {
+                onClick()
+            },
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Image(
-                painter = painterResource(id = R.drawable.banana),
+                painter = painterResource(id = imageUrl),
                 contentDescription = title
             )
             Text(

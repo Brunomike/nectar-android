@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -56,33 +56,37 @@ fun BottomNavigation(navController: NavController) {
         ),
     )
 
-    Column(
+    var selectedItemIndex by remember { mutableStateOf(0) }
+
+//    Column(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .background(Color.White)
+//            .shadow(elevation = 4.dp, shape = RoundedCornerShape(8.dp), clip = false)
+//            .height(60.dp)
+//    ) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround,
         modifier = Modifier
             .fillMaxWidth()
+            .height(50.dp)
             .background(Color.White)
-            .shadow(elevation=4.dp,shape= RoundedCornerShape(8.dp), clip = false)
-            .height(60.dp)
+            .shadow(2.dp, RoundedCornerShape(8.dp))
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .background(Color.White)
-                //.shadow(2.dp, RoundedCornerShape(8.dp))
-        ) {
-            navigationItems.map { item ->
-                NavigationItem(
-                    icon = item.icon,
-                    title = item.title,
-                    active = item.active,
-                    route = item.route,
-                    navController = item.navController
-                )
-            }
+        navigationItems.mapIndexed { index, item ->
+            NavigationItem(
+                icon = item.icon,
+                title = item.title,
+                active = index == selectedItemIndex,
+                onClick = {
+                    navController.navigate(item.route)
+                    selectedItemIndex = index
+                }
+            )
         }
     }
+    //}
 }
 
 
@@ -91,28 +95,28 @@ fun NavigationItem(
     icon: Int,
     title: String,
     active: Boolean,
-    route: String,
-    navController: NavController,
+    onClick: () -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .height(42.dp)
+            .padding(4.dp)
             .clickable {
-                navController.navigate(route)
+                onClick()
             }
     ) {
         Icon(
             painter = painterResource(id = icon),
             contentDescription = title,
-            tint = if (active) Color.Green else Color.Black,
+            tint = if (active) Color(0XFF53B175) else Color.Black,
             modifier = Modifier
-                .size(25.dp)
+                .size(20.dp)
         )
         Text(
             text = title,
-            color = if (active) Color.Green else Color.Black,
+            color = if (active) Color(0xFF53B175) else Color.Black,
             fontSize = 12.sp,
             fontWeight = FontWeight.Thin
         )

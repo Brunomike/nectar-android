@@ -35,7 +35,12 @@ fun Search(searchTerm: MutableState<String>) {
             )
         },
         placeholder = {
-            if (searchTerm.value == "") Text(text = "Search Store", color = Color(0xFF7C7C7C), style = MaterialTheme.typography.body1, fontWeight = FontWeight.Thin)
+            if (searchTerm.value == "") Text(
+                text = "Search Store",
+                color = Color(0xFF7C7C7C),
+                style = MaterialTheme.typography.body1,
+                fontWeight = FontWeight.Thin
+            )
         },
         colors = TextFieldDefaults.textFieldColors(
             placeholderColor = Color.Gray,
@@ -43,6 +48,7 @@ fun Search(searchTerm: MutableState<String>) {
             unfocusedIndicatorColor = Color.Transparent,
             cursorColor = Color(0xFF53B175)
         ),
+        textStyle = TextStyle(fontWeight = FontWeight.Thin),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
