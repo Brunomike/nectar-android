@@ -9,6 +9,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -48,27 +49,23 @@ fun Dropdown(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween, modifier = modifier
             .fillMaxWidth()
-
-        //.background(if (textColor == Color.Black) Color.White else Color.White)
+            .padding(top = 8.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(4.dp)
                 .background(Color.White)
-            //.clip(RoundedCornerShape(5.dp))
         ) {
             Text(
                 text = text,
-                modifier = Modifier.padding(start = 16.dp),
                 color = Color.Black,
-                fontSize = 18.sp,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
             Icon(
-                imageVector = if (isOpen) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                imageVector = if (isOpen) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowRight,
                 contentDescription = "Open or close the drop down",
                 tint = Color.DarkGray,
                 modifier = Modifier
@@ -76,8 +73,7 @@ fun Dropdown(
                         isOpen = !isOpen
                     }
                     .scale(1f, if (isOpen) -1f else 1f)
-                    .size(40.dp)
-
+                    .size(15.dp)
             )
         }
         Spacer(modifier = Modifier.height(5.dp))
@@ -89,7 +85,6 @@ fun Dropdown(
                     rotationX = rotateX.value
                 }
                 .alpha(alpha.value)
-                //.background(gradientColor5)
         ) {
             if (isOpen) {
                 content(modifier = Modifier)

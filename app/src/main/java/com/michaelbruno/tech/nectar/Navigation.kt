@@ -36,6 +36,9 @@ fun Navigation(navController: NavHostController) {
             composable(route = Screen.ProfileScreen.route) {
                 ProfileScreen(navController = navController)
             }
+            composable(route = Screen.ProductScreen.route) {
+                ProductDetailScreen(navController = navController)
+            }
         }
 
 }

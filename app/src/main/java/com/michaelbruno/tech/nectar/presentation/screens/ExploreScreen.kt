@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.michaelbruno.tech.nectar.Constants
 import com.michaelbruno.tech.nectar.R
+import com.michaelbruno.tech.nectar.Screen
 import com.michaelbruno.tech.nectar.presentation.composables.Search
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -43,7 +44,7 @@ fun ExploreScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 8.dp, bottom = 70.dp)
+                .padding(top = 8.dp, bottom = 50.dp)
         ) {
 
             Text(
@@ -78,7 +79,10 @@ fun ExploreScreen(navController: NavController) {
                                 imageUrl = Constants.productList[index].imageUrl,
                                 title = Constants.productList[index].title,
                                 price = Constants.productList[index].price,
-                                quantity = Constants.productList[index].quantity
+                                quantity = Constants.productList[index].quantity,
+                                onClick = {
+                                    navController.navigate(Screen.ProductScreen.route)
+                                }
                             )
                         }
                     }

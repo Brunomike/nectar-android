@@ -26,7 +26,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.michaelbruno.tech.nectar.R
+import com.michaelbruno.tech.nectar.Screen
 import com.michaelbruno.tech.nectar.presentation.composables.AppLogo
+import com.michaelbruno.tech.nectar.presentation.composables.CustomErrorDialog
 import com.michaelbruno.tech.nectar.presentation.composables.ErrorDialog
 import com.michaelbruno.tech.nectar.presentation.composables.Search
 import com.michaelbruno.tech.nectar.ui.theme.fonts
@@ -86,7 +88,7 @@ fun HomeScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 8.dp,bottom = 70.dp)
+                .padding(top = 8.dp, bottom = 50.dp)
         ) {
             //AppLogo(Color(0xFFF3603F), Color(0xFF53B175), .5f)
             Image(
@@ -118,19 +120,16 @@ fun HomeScreen(navController: NavController) {
 
             LazyVerticalGrid(
                 cells = GridCells.Fixed(2),
-//                contentPadding = PaddingValues(
-//                    start = 12.dp,
-//                    top = 16.dp,
-//                    end = 12.dp,
-//                    bottom = 16.dp
-//                ),
                 content = {
                     items(productList.size) { index ->
                         Product(
                             imageUrl = productList[index].imageUrl,
                             title = productList[index].title,
                             price = productList[index].price,
-                            quantity = productList[index].quantity
+                            quantity = productList[index].quantity,
+                            onClick = {
+                                navController.navigate(Screen.ProductScreen.route)
+                            }
                         )
                     }
                 }
@@ -140,12 +139,16 @@ fun HomeScreen(navController: NavController) {
             Spacer(modifier = Modifier.width(8.dp))
 
             Button(
-                onClick = { openDialog.value = !openDialog.value }
+                onClick = {
+                    openDialog.value = !openDialog.value
+                }
             ) {
                 Text(text = "Show Dialog", color = Color.White)
             }
-            ErrorDialog(navController, openDialog)
-
+            //ErrorDialog(navController, openDialog)
+            CustomErrorDialog(openDialog.value, onClose = {
+                openDialog.value = !openDialog.value
+            })
         }
 
 
@@ -153,7 +156,7 @@ fun HomeScreen(navController: NavController) {
 }
 
 @Composable
-fun Product(imageUrl: Int, title: String, price: Float, quantity: String) {
+fun Product(imageUrl: Int, title: String, price: Float, quantity: String, onClick: () -> Unit) {
     Card(
         backgroundColor = Color.White,
         shape = RoundedCornerShape(8.dp),
@@ -161,7 +164,10 @@ fun Product(imageUrl: Int, title: String, price: Float, quantity: String) {
             .padding(4.dp)
             .fillMaxWidth()
             .border(width = 1.dp, shape = RoundedCornerShape(8.dp), color = Color.LightGray)
-            .defaultMinSize(minHeight = 150.dp),
+            .defaultMinSize(minHeight = 150.dp)
+            .clickable {
+                onClick()
+            },
         //elevation = 8.dp
     ) {
         Column(
@@ -232,79 +238,6 @@ data class ProductKt(
     val imageUrl: Int,
     val title: String,
     val price: Float,
-    val quantity: String
+    val quantity: String,
+    var totalItems: Int? = 10
 )
-
-@OptIn(ExperimentalFoundationApi::class)
-@Preview
-@Composable
-fun ProductPreview() {
-    val productList: List<ProductKt> = listOf(
-        ProductKt(
-            imageUrl = R.drawable.banana,
-            title = "Organic Bananas",
-            price = 4.99f,
-            quantity = "1kg"
-        ),
-        ProductKt(
-            imageUrl = R.drawable.banana,
-            title = "Organic Bananas",
-            price = 4.99f,
-            quantity = "1kg"
-        ),
-        ProductKt(
-            imageUrl = R.drawable.banana,
-            title = "Organic Bananas",
-            price = 4.99f,
-            quantity = "1kg"
-        ),
-        ProductKt(
-            imageUrl = R.drawable.banana,
-            title = "Organic Bananas",
-            price = 4.99f,
-            quantity = "1kg"
-        ),
-        ProductKt(
-            imageUrl = R.drawable.banana,
-            title = "Organic Bananas",
-            price = 4.99f,
-            quantity = "1kg"
-        ),
-        ProductKt(
-            imageUrl = R.drawable.banana,
-            title = "Organic Bananas",
-            price = 4.99f,
-            quantity = "1kg"
-        ),
-    )
-    HomeScreen(navController = rememberNavController())
-}
-
-//@Preview
-//@Composable
-//fun OffersPreview() {
-//
-//}
-
-
-//        LazyVerticalGrid(
-//            cells = GridCells.Fixed(2),
-//            content = {
-//                items(productList.size) { index ->
-//                        Product(
-//                            imageUrl = productList[index].imageUrl,
-//                            title = productList[index].title,
-//                            price = productList[index].price,
-//                            quantity = productList[index].quantity
-//                        )
-//                    Card(
-//                        backgroundColor = Color.Red,
-//                        modifier = Modifier.padding(4.dp)
-//                            .fillMaxWidth(),
-//                        elevation = 8.dp
-//                    ) {
-//
-//                    }
-//                }
-//            }
-//        )

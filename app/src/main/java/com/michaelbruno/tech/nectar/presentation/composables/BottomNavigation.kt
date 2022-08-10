@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -72,7 +73,12 @@ fun BottomNavigation(navController: NavController) {
             .fillMaxWidth()
             .height(50.dp)
             .background(Color.White)
-            .shadow(2.dp, RoundedCornerShape(8.dp))
+            .graphicsLayer {
+                clip=true
+                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
+                shadowElevation = 2.2f
+            }
+            //.shadow(2.dp, RoundedCornerShape(8.dp))
     ) {
         navigationItems.mapIndexed { index, item ->
             NavigationItem(

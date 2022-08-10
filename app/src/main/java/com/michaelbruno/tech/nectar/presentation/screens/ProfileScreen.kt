@@ -83,7 +83,7 @@ fun ProfileScreen(navController: NavController) {
             .fillMaxSize()
             .background(Color.White)
             .verticalScroll(enabled = true, state = rememberScrollState())
-            .padding(bottom = 50.dp)
+            .padding(bottom = 90.dp)
     ) {
         Box(
             contentAlignment = Alignment.Center,
